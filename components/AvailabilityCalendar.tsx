@@ -78,48 +78,44 @@ export default function AvailabilityCalendar() {
             />
           ) : (
             <div
-              className="p-6 border"
+              className="avail-calendar p-6 border"
               style={{
                 background: "var(--color-surface)",
                 borderColor: "var(--color-border)",
               }}
             >
               <style>{`
-                .rdp-root {
+                .avail-calendar .rdp-root {
                   --rdp-accent-color: var(--color-gold);
                   --rdp-accent-background-color: rgba(201,169,110,0.15);
                   --rdp-day-font: var(--font-inter), system-ui, sans-serif;
                   color: var(--color-cream);
                 }
-                .rdp-day {
+                .avail-calendar .rdp-day {
                   color: var(--color-cream);
                 }
-                .rdp-day_button {
+                .avail-calendar .rdp-day_button {
                   cursor: default !important;
                   pointer-events: none;
                 }
-                .rdp-selected .rdp-day_button {
-                  background: var(--color-gold) !important;
-                  color: var(--color-near-black) !important;
-                }
-                .rdp-outside {
+                .avail-calendar .rdp-outside {
                   opacity: 0.25;
                 }
-                .rdp-disabled {
+                .avail-calendar .rdp-disabled {
                   opacity: 0.4;
                 }
-                .rdp-nav button {
+                .avail-calendar .rdp-nav button {
                   color: var(--color-cream);
                 }
-                .rdp-month_caption {
+                .avail-calendar .rdp-month_caption {
                   color: var(--color-cream);
                   font-family: var(--font-playfair);
                 }
-                .rdp-weekdays {
+                .avail-calendar .rdp-weekdays {
                   color: var(--color-muted);
                 }
-                .day-booked .rdp-day_button,
-                button.rdp-day_button.day-booked {
+                .avail-calendar .day-booked .rdp-day_button,
+                .avail-calendar button.rdp-day_button.day-booked {
                   background:
                     linear-gradient(45deg, transparent 38%, rgba(210,50,50,0.9) 38%, rgba(210,50,50,0.9) 62%, transparent 62%),
                     linear-gradient(-45deg, transparent 38%, rgba(210,50,50,0.9) 38%, rgba(210,50,50,0.9) 62%, transparent 62%),
