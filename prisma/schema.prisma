@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AvailabilityBlock {
+  id        String   @id @default(cuid())
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+  label     String?
+  createdAt DateTime @default(now())
+}
+
+model QuoteRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  eventType String
+  eventDate DateTime @db.Date
+  location  String
+  guests    Int?
+  message   String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
