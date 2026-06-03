@@ -94,8 +94,9 @@ export default function AvailabilityCalendar() {
                 .rdp-day {
                   color: var(--color-cream);
                 }
-                .rdp-day_button:hover:not([disabled]) {
-                  background: rgba(201,169,110,0.1);
+                .rdp-day_button {
+                  cursor: default !important;
+                  pointer-events: none;
                 }
                 .rdp-selected .rdp-day_button {
                   background: var(--color-gold) !important;
@@ -125,7 +126,6 @@ export default function AvailabilityCalendar() {
                 }
               `}</style>
               <DayPicker
-                mode="single"
                 numberOfMonths={2}
                 disabled={[{ before: today }, isBooked]}
                 modifiers={{ booked: isBooked }}
