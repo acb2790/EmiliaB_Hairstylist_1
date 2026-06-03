@@ -89,6 +89,7 @@ export const QuoteRequestScalarFieldEnum = {
   phone: 'phone',
   eventType: 'eventType',
   eventDate: 'eventDate',
+  eventDateEnd: 'eventDateEnd',
   location: 'location',
   guests: 'guests',
   message: 'message',

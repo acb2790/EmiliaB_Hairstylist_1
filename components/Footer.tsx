@@ -17,7 +17,7 @@ export default function Footer() {
               color: "var(--color-cream)",
             }}
           >
-            EmiliaB
+            Emilia B.
           </span>
           <span
             className="text-xs tracking-[0.25em] uppercase"
@@ -57,7 +57,7 @@ export default function Footer() {
           className="text-xs"
           style={{ color: "var(--color-muted)" }}
         >
-          © {year} EmiliaB Hairstylist. All rights reserved.
+          © {year} Emilia B. Hairstylist. All rights reserved.
         </p>
       </div>
     </footer>

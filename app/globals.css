@@ -47,3 +47,45 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-muted);
 }
+
+/* DayPicker dark theme for quote form */
+.quote-calendar .rdp-root {
+  --rdp-accent-color: #c9a96e;
+  --rdp-accent-background-color: rgba(201, 169, 110, 0.15);
+  --rdp-range_start-color: #0c0c0c;
+  --rdp-range_end-color: #0c0c0c;
+  --rdp-range_middle-color: #f5f0e8;
+  --rdp-today-color: #c9a96e;
+  color: #f5f0e8;
+  background: transparent;
+}
+
+.quote-calendar .rdp-month_caption,
+.quote-calendar .rdp-weekday,
+.quote-calendar .rdp-day {
+  color: #f5f0e8;
+}
+
+.quote-calendar .rdp-day_button:hover:not([disabled]) {
+  background: rgba(201, 169, 110, 0.2);
+  color: #f5f0e8;
+}
+
+.quote-calendar .rdp-day[data-outside] {
+  color: #6b6b6b;
+}
+
+.quote-calendar .rdp-nav button {
+  color: #c9a96e;
+}
+
+.quote-calendar .rdp-nav button:hover {
+  background: rgba(201, 169, 110, 0.15);
+}
+
+.quote-calendar .day-booked .rdp-day_button {
+  background: rgba(180, 50, 50, 0.35) !important;
+  color: #f5f0e8 !important;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}

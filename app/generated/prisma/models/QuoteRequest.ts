@@ -41,6 +41,7 @@ export type QuoteRequestMinAggregateOutputType = {
   phone: string | null
   eventType: string | null
   eventDate: Date | null
+  eventDateEnd: Date | null
   location: string | null
   guests: number | null
   message: string | null
@@ -55,6 +56,7 @@ export type QuoteRequestMaxAggregateOutputType = {
   phone: string | null
   eventType: string | null
   eventDate: Date | null
+  eventDateEnd: Date | null
   location: string | null
   guests: number | null
   message: string | null
@@ -69,6 +71,7 @@ export type QuoteRequestCountAggregateOutputType = {
   phone: number
   eventType: number
   eventDate: number
+  eventDateEnd: number
   location: number
   guests: number
   message: number
@@ -93,6 +96,7 @@ export type QuoteRequestMinAggregateInputType = {
   phone?: true
   eventType?: true
   eventDate?: true
+  eventDateEnd?: true
   location?: true
   guests?: true
   message?: true
@@ -107,6 +111,7 @@ export type QuoteRequestMaxAggregateInputType = {
   phone?: true
   eventType?: true
   eventDate?: true
+  eventDateEnd?: true
   location?: true
   guests?: true
   message?: true
@@ -121,6 +126,7 @@ export type QuoteRequestCountAggregateInputType = {
   phone?: true
   eventType?: true
   eventDate?: true
+  eventDateEnd?: true
   location?: true
   guests?: true
   message?: true
@@ -222,6 +228,7 @@ export type QuoteRequestGroupByOutputType = {
   phone: string | null
   eventType: string
   eventDate: Date
+  eventDateEnd: Date | null
   location: string
   guests: number | null
   message: string | null
@@ -259,6 +266,7 @@ export type QuoteRequestWhereInput = {
   phone?: Prisma.StringNullableFilter<"QuoteRequest"> | string | null
   eventType?: Prisma.StringFilter<"QuoteRequest"> | string
   eventDate?: Prisma.DateTimeFilter<"QuoteRequest"> | Date | string
+  eventDateEnd?: Prisma.DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
   location?: Prisma.StringFilter<"QuoteRequest"> | string
   guests?: Prisma.IntNullableFilter<"QuoteRequest"> | number | null
   message?: Prisma.StringNullableFilter<"QuoteRequest"> | string | null
@@ -273,6 +281,7 @@ export type QuoteRequestOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   eventType?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
+  eventDateEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrder
   guests?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -290,6 +299,7 @@ export type QuoteRequestWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"QuoteRequest"> | string | null
   eventType?: Prisma.StringFilter<"QuoteRequest"> | string
   eventDate?: Prisma.DateTimeFilter<"QuoteRequest"> | Date | string
+  eventDateEnd?: Prisma.DateTimeNullableFilter<"QuoteRequest"> | Date | string | null
   location?: Prisma.StringFilter<"QuoteRequest"> | string
   guests?: Prisma.IntNullableFilter<"QuoteRequest"> | number | null
   message?: Prisma.StringNullableFilter<"QuoteRequest"> | string | null
@@ -304,6 +314,7 @@ export type QuoteRequestOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   eventType?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
+  eventDateEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrder
   guests?: Prisma.SortOrderInput | Prisma.SortOrder
   message?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -326,6 +337,7 @@ export type QuoteRequestScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
   eventType?: Prisma.StringWithAggregatesFilter<"QuoteRequest"> | string
   eventDate?: Prisma.DateTimeWithAggregatesFilter<"QuoteRequest"> | Date | string
+  eventDateEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"QuoteRequest"> | Date | string | null
   location?: Prisma.StringWithAggregatesFilter<"QuoteRequest"> | string
   guests?: Prisma.IntNullableWithAggregatesFilter<"QuoteRequest"> | number | null
   message?: Prisma.StringNullableWithAggregatesFilter<"QuoteRequest"> | string | null
@@ -340,6 +352,7 @@ export type QuoteRequestCreateInput = {
   phone?: string | null
   eventType: string
   eventDate: Date | string
+  eventDateEnd?: Date | string | null
   location: string
   guests?: number | null
   message?: string | null
@@ -354,6 +367,7 @@ export type QuoteRequestUncheckedCreateInput = {
   phone?: string | null
   eventType: string
   eventDate: Date | string
+  eventDateEnd?: Date | string | null
   location: string
   guests?: number | null
   message?: string | null
@@ -368,6 +382,7 @@ export type QuoteRequestUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventType?: Prisma.StringFieldUpdateOperationsInput | string
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eventDateEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   guests?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -382,6 +397,7 @@ export type QuoteRequestUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventType?: Prisma.StringFieldUpdateOperationsInput | string
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eventDateEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   guests?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -396,6 +412,7 @@ export type QuoteRequestCreateManyInput = {
   phone?: string | null
   eventType: string
   eventDate: Date | string
+  eventDateEnd?: Date | string | null
   location: string
   guests?: number | null
   message?: string | null
@@ -410,6 +427,7 @@ export type QuoteRequestUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventType?: Prisma.StringFieldUpdateOperationsInput | string
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eventDateEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   guests?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -424,6 +442,7 @@ export type QuoteRequestUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventType?: Prisma.StringFieldUpdateOperationsInput | string
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eventDateEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.StringFieldUpdateOperationsInput | string
   guests?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -438,6 +457,7 @@ export type QuoteRequestCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   eventType?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
+  eventDateEnd?: Prisma.SortOrder
   location?: Prisma.SortOrder
   guests?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -456,6 +476,7 @@ export type QuoteRequestMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   eventType?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
+  eventDateEnd?: Prisma.SortOrder
   location?: Prisma.SortOrder
   guests?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -470,6 +491,7 @@ export type QuoteRequestMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   eventType?: Prisma.SortOrder
   eventDate?: Prisma.SortOrder
+  eventDateEnd?: Prisma.SortOrder
   location?: Prisma.SortOrder
   guests?: Prisma.SortOrder
   message?: Prisma.SortOrder
@@ -479,6 +501,10 @@ export type QuoteRequestMinOrderByAggregateInput = {
 
 export type QuoteRequestSumOrderByAggregateInput = {
   guests?: Prisma.SortOrder
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
@@ -498,6 +524,7 @@ export type QuoteRequestSelect<ExtArgs extends runtime.Types.Extensions.Internal
   phone?: boolean
   eventType?: boolean
   eventDate?: boolean
+  eventDateEnd?: boolean
   location?: boolean
   guests?: boolean
   message?: boolean
@@ -512,6 +539,7 @@ export type QuoteRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   phone?: boolean
   eventType?: boolean
   eventDate?: boolean
+  eventDateEnd?: boolean
   location?: boolean
   guests?: boolean
   message?: boolean
@@ -526,6 +554,7 @@ export type QuoteRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   phone?: boolean
   eventType?: boolean
   eventDate?: boolean
+  eventDateEnd?: boolean
   location?: boolean
   guests?: boolean
   message?: boolean
@@ -540,6 +569,7 @@ export type QuoteRequestSelectScalar = {
   phone?: boolean
   eventType?: boolean
   eventDate?: boolean
+  eventDateEnd?: boolean
   location?: boolean
   guests?: boolean
   message?: boolean
@@ -547,7 +577,7 @@ export type QuoteRequestSelectScalar = {
   createdAt?: boolean
 }
 
-export type QuoteRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "eventType" | "eventDate" | "location" | "guests" | "message" | "status" | "createdAt", ExtArgs["result"]["quoteRequest"]>
+export type QuoteRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "eventType" | "eventDate" | "eventDateEnd" | "location" | "guests" | "message" | "status" | "createdAt", ExtArgs["result"]["quoteRequest"]>
 
 export type $QuoteRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "QuoteRequest"
@@ -559,6 +589,7 @@ export type $QuoteRequestPayload<ExtArgs extends runtime.Types.Extensions.Intern
     phone: string | null
     eventType: string
     eventDate: Date
+    eventDateEnd: Date | null
     location: string
     guests: number | null
     message: string | null
@@ -993,6 +1024,7 @@ export interface QuoteRequestFieldRefs {
   readonly phone: Prisma.FieldRef<"QuoteRequest", 'String'>
   readonly eventType: Prisma.FieldRef<"QuoteRequest", 'String'>
   readonly eventDate: Prisma.FieldRef<"QuoteRequest", 'DateTime'>
+  readonly eventDateEnd: Prisma.FieldRef<"QuoteRequest", 'DateTime'>
   readonly location: Prisma.FieldRef<"QuoteRequest", 'String'>
   readonly guests: Prisma.FieldRef<"QuoteRequest", 'Int'>
   readonly message: Prisma.FieldRef<"QuoteRequest", 'String'>

@@ -21,7 +21,8 @@ model QuoteRequest {
   email     String
   phone     String?
   eventType String
-  eventDate DateTime @db.Date
+  eventDate    DateTime  @db.Date
+  eventDateEnd DateTime? @db.Date
   location  String
   guests    Int?
   message   String?

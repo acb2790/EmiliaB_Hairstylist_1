@@ -1,9 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DayPicker } from "react-day-picker";
+import { format, parseISO, startOfDay, isWithinInterval } from "date-fns";
+import "react-day-picker/style.css";
+
+interface Block {
+  id: string;
+  startDate: string;
+  endDate: string;
+}
 
 const schema = z.object({
   name: z.string().min(2, "Please enter your full name"),
@@ -11,6 +20,7 @@ const schema = z.object({
   phone: z.string().optional(),
   eventType: z.string().min(1, "Please select an event type"),
   eventDate: z.string().min(1, "Please select a date"),
+  eventDateEnd: z.string().optional(),
   location: z.string().min(2, "Please enter the event location"),
   guests: z.string().optional(),
   message: z.string().optional(),
@@ -33,13 +43,53 @@ export default function QuoteForm() {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">(
     "idle"
   );
+  const [calOpen, setCalOpen] = useState(false);
+  const [range, setRange] = useState<{ from?: Date; to?: Date }>({});
+  const [blocks, setBlocks] = useState<Block[]>([]);
+  const calRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/availability")
+      .then((r) => r.json())
+      .then((d) => setBlocks(d.blocks ?? []))
+      .catch(() => {});
+  }, []);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (calRef.current && !calRef.current.contains(e.target as Node)) {
+        setCalOpen(false);
+      }
+    }
+    if (calOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [calOpen]);
+
+  function handleRangeSelect(r: { from?: Date; to?: Date } | undefined) {
+    const next = r ?? {};
+    setRange(next);
+    setValue("eventDate", next.from ? format(next.from, "yyyy-MM-dd") : "");
+    setValue(
+      "eventDateEnd",
+      next.to ? format(next.to, "yyyy-MM-dd") : undefined
+    );
+    if (next.from && next.to) setCalOpen(false);
+  }
+
+  function formatRangeLabel() {
+    if (!range.from) return "";
+    if (!range.to || range.to.getTime() === range.from.getTime())
+      return format(range.from, "d MMM yyyy");
+    return `${format(range.from, "d MMM yyyy")} – ${format(range.to, "d MMM yyyy")}`;
+  }
 
   const onSubmit = async (data: FormData) => {
     setState("sending");
@@ -52,12 +102,42 @@ export default function QuoteForm() {
       if (res.ok) {
         setState("done");
         reset();
+        setRange({});
       } else {
         setState("error");
       }
     } catch {
       setState("error");
     }
+  };
+
+  const today = startOfDay(new Date());
+
+  const isBooked = (date: Date) => {
+    const d = startOfDay(date);
+    return blocks.some((b) =>
+      isWithinInterval(d, {
+        start: startOfDay(parseISO(b.startDate)),
+        end: startOfDay(parseISO(b.endDate)),
+      })
+    );
+  };
+
+  // Disable a date if it is booked OR if selecting it as an end date would
+  // create a range that crosses any booked block.
+  const isDisabled = (date: Date): boolean => {
+    const d = startOfDay(date);
+    if (d < today) return true;
+    if (isBooked(d)) return true;
+    if (range.from && d > startOfDay(range.from)) {
+      const from = startOfDay(range.from);
+      return blocks.some((b) => {
+        const bs = startOfDay(parseISO(b.startDate));
+        const be = startOfDay(parseISO(b.endDate));
+        return bs <= d && be >= from;
+      });
+    }
+    return false;
   };
 
   return (
@@ -192,23 +272,6 @@ export default function QuoteForm() {
               </div>
               <div>
                 <input
-                  {...register("eventDate")}
-                  type="date"
-                  placeholder="Event Date *"
-                  className={inputClass}
-                  style={{
-                    ...inputStyle,
-                    colorScheme: "dark",
-                  }}
-                />
-                {errors.eventDate && (
-                  <p className="text-xs mt-1" style={{ color: "#e05050" }}>
-                    {errors.eventDate.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <input
                   {...register("location")}
                   placeholder="City & Country *"
                   className={inputClass}
@@ -220,6 +283,70 @@ export default function QuoteForm() {
                   </p>
                 )}
               </div>
+            </div>
+
+            {/* Date range picker — spans full width */}
+            <div ref={calRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setCalOpen((o) => !o)}
+                className={`${inputClass} text-left`}
+                style={{
+                  ...inputStyle,
+                  color: range.from ? "var(--color-cream)" : "var(--color-muted)",
+                }}
+              >
+                {range.from ? formatRangeLabel() : "Event Date(s) *"}
+              </button>
+              {errors.eventDate && (
+                <p className="text-xs mt-1" style={{ color: "#e05050" }}>
+                  {errors.eventDate.message}
+                </p>
+              )}
+
+              {calOpen && (
+                <div
+                  className="quote-calendar absolute z-50 mt-2 p-4 border"
+                  style={{
+                    background: "var(--color-surface)",
+                    borderColor: "var(--color-border)",
+                    left: 0,
+                  }}
+                >
+                  <DayPicker
+                    mode="range"
+                    selected={{ from: range.from, to: range.to }}
+                    onSelect={handleRangeSelect}
+                    disabled={isDisabled}
+                    modifiers={{ booked: isBooked }}
+                    modifiersClassNames={{ booked: "day-booked" }}
+                    numberOfMonths={2}
+                  />
+                  {range.from && (
+                    <div className="flex justify-between items-center mt-3 pt-3 border-t" style={{ borderColor: "var(--color-border)" }}>
+                      <p className="text-xs" style={{ color: "var(--color-muted)" }}>
+                        {formatRangeLabel()}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setRange({});
+                          setValue("eventDate", "");
+                          setValue("eventDateEnd", undefined);
+                        }}
+                        className="text-xs"
+                        style={{ color: "var(--color-muted)" }}
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* hidden inputs registered with react-hook-form */}
+              <input type="hidden" {...register("eventDate")} />
+              <input type="hidden" {...register("eventDateEnd")} />
             </div>
 
             <div>

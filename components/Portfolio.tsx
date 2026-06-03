@@ -88,7 +88,7 @@ export default function Portfolio() {
                 >
                   <Image
                     src={src}
-                    alt={post.caption?.slice(0, 60) ?? "EmiliaB work"}
+                    alt={post.caption?.slice(0, 60) ?? "Emilia B. work"}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 768px) 33vw, 25vw"

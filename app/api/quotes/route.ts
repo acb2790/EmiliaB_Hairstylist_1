@@ -18,7 +18,7 @@ function createTransport() {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, email, phone, eventType, eventDate, location, guests, message } =
+  const { name, email, phone, eventType, eventDate, eventDateEnd, location, guests, message } =
     body;
 
   if (!name || !email || !eventType || !eventDate || !location) {
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       phone: phone || null,
       eventType,
       eventDate: new Date(eventDate),
+      eventDateEnd: eventDateEnd ? new Date(eventDateEnd) : null,
       location,
       guests: guests ? parseInt(guests, 10) : null,
       message: message || null,
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 
   if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
     const transporter = createTransport();
-    const from = `"EmiliaB Hairstylist" <${process.env.GMAIL_USER}>`;
+    const from = `"Emilia B. Hairstylist" <${process.env.GMAIL_USER}>`;
 
     await Promise.allSettled([
       transporter.sendMail({
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
           <p><strong>Email:</strong> ${email}</p>
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
           <p><strong>Event Type:</strong> ${eventType}</p>
-          <p><strong>Event Date:</strong> ${eventDate}</p>
+          <p><strong>Event Date:</strong> ${eventDate}${eventDateEnd && eventDateEnd !== eventDate ? ` → ${eventDateEnd}` : ""}</p>
           <p><strong>Location:</strong> ${location}</p>
           ${guests ? `<p><strong>Guests:</strong> ${guests}</p>` : ""}
           ${message ? `<p><strong>Message:</strong><br/>${message}</p>` : ""}
@@ -62,13 +63,13 @@ export async function POST(req: NextRequest) {
       transporter.sendMail({
         from,
         to: email,
-        subject: "Your quote request has been received — EmiliaB Hairstylist",
+        subject: "Your quote request has been received — Emilia B. Hairstylist",
         html: `
           <p>Dear ${name},</p>
-          <p>Thank you for reaching out! I have received your quote request for a <strong>${eventType}</strong> on <strong>${eventDate}</strong> in <strong>${location}</strong>.</p>
+          <p>Thank you for reaching out! I have received your quote request for a <strong>${eventType}</strong> on <strong>${eventDate}${eventDateEnd && eventDateEnd !== eventDate ? ` → ${eventDateEnd}` : ""}</strong> in <strong>${location}</strong>.</p>
           <p>I will review your request and get back to you within 24 hours to discuss the details.</p>
           <br/>
-          <p>Kind regards,<br/><strong>Emilia</strong><br/>EmiliaB Hairstylist</p>
+          <p>Kind regards,<br/><strong>Emilia</strong><br/>Emilia B. Hairstylist</p>
         `,
       }),
     ]);

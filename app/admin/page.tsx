@@ -42,7 +42,7 @@ export default function AdminLogin() {
               color: "var(--color-cream)",
             }}
           >
-            EmiliaB
+            Emilia B.
           </p>
           <p
             className="text-xs tracking-[0.3em] uppercase"

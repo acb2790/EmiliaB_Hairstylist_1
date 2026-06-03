@@ -15,11 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EmiliaB Hairstylist | Luxury Hair Artistry Across Europe",
+  title: "Emilia B. Hairstylist | Luxury Hair Artistry Across Europe",
   description:
     "Professional hairstylist for weddings, sports events, and corporate occasions across Europe. 999€/day — 12h availability. Request a quotation.",
   openGraph: {
-    title: "EmiliaB Hairstylist",
+    title: "Emilia B. Hairstylist",
     description: "Luxury hair artistry for your most important moments.",
     type: "website",
   },

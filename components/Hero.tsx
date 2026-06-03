@@ -41,7 +41,7 @@ export default function Hero() {
             letterSpacing: "-0.02em",
           }}
         >
-          EmiliaB
+          Emilia B.
         </h1>
 
         <div

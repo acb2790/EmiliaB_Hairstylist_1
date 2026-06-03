@@ -39,7 +39,7 @@ export default function Nav() {
           onClick={() => handleNav("#hero")}
           className="font-[var(--font-playfair)] text-[var(--color-cream)] text-xl tracking-widest uppercase"
         >
-          EmiliaB
+          Emilia B.
         </button>
 
         <ul className="hidden md:flex items-center gap-10">

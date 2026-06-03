@@ -20,6 +20,7 @@ interface Quote {
   phone?: string;
   eventType: string;
   eventDate: string;
+  eventDateEnd?: string;
   location: string;
   guests?: number;
   message?: string;
@@ -112,7 +113,7 @@ export default function Dashboard() {
           className="text-lg tracking-widest uppercase"
           style={{ fontFamily: "var(--font-playfair)" }}
         >
-          EmiliaB · Admin
+          Emilia B. · Admin
         </span>
         <div className="flex items-center gap-4">
           <a
@@ -404,6 +405,9 @@ export default function Dashboard() {
                           <span style={{ color: "var(--color-muted)" }}>Date: </span>
                           <span style={{ color: "var(--color-cream)" }}>
                             {format(parseISO(q.eventDate), "d MMM yyyy")}
+                            {q.eventDateEnd && q.eventDateEnd !== q.eventDate
+                              ? ` → ${format(parseISO(q.eventDateEnd), "d MMM yyyy")}`
+                              : ""}
                           </span>
                         </div>
                         <div>
