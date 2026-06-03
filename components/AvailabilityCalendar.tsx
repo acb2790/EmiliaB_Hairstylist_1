@@ -114,13 +114,24 @@ export default function AvailabilityCalendar() {
                 .avail-calendar .rdp-weekdays {
                   color: var(--color-muted);
                 }
-                .avail-calendar .day-booked .rdp-day_button,
-                .avail-calendar button.rdp-day_button.day-booked {
-                  background:
-                    linear-gradient(45deg, transparent 38%, rgba(210,50,50,0.9) 38%, rgba(210,50,50,0.9) 62%, transparent 62%),
-                    linear-gradient(-45deg, transparent 38%, rgba(210,50,50,0.9) 38%, rgba(210,50,50,0.9) 62%, transparent 62%),
-                    rgba(180,50,50,0.12) !important;
-                  color: rgba(245,240,232,0.25) !important;
+                .avail-calendar .rdp-day.day-booked {
+                  position: relative;
+                }
+                .avail-calendar .rdp-day.day-booked::after {
+                  content: '✕';
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: rgba(220,60,60,0.9);
+                  font-size: 16px;
+                  pointer-events: none;
+                  z-index: 2;
+                }
+                .avail-calendar .rdp-day.day-booked .rdp-day_button {
+                  opacity: 0.15 !important;
+                  background: rgba(180,50,50,0.2) !important;
                 }
               `}</style>
               <DayPicker
