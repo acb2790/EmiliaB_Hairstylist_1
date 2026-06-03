@@ -73,14 +73,39 @@ export default function QuoteForm() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [calOpen]);
 
+  function rangecrossesBlock(from: Date, to: Date): boolean {
+    const lo = from < to ? from : to;
+    const hi = from < to ? to : from;
+    return blocks.some((b) => {
+      const bs = startOfDay(parseISO(b.startDate));
+      const be = startOfDay(parseISO(b.endDate));
+      return bs <= hi && be >= lo;
+    });
+  }
+
   function handleRangeSelect(r: { from?: Date; to?: Date } | undefined) {
     const next = r ?? {};
+
+    // If react-day-picker swapped the range (user clicked before current from),
+    // validate the resulting range. If it crosses a block, reset to just the
+    // clicked date as a new start.
+    if (next.from && next.to) {
+      if (rangecrossesBlock(startOfDay(next.from), startOfDay(next.to))) {
+        const originalFrom = range.from ? startOfDay(range.from) : null;
+        const newFrom =
+          originalFrom && startOfDay(next.from).getTime() !== originalFrom.getTime()
+            ? next.from   // backwards click: use the earlier clicked date as new start
+            : range.from ?? next.from;  // forward click past a block: keep original from
+        setRange({ from: newFrom });
+        setValue("eventDate", format(newFrom, "yyyy-MM-dd"));
+        setValue("eventDateEnd", undefined);
+        return;
+      }
+    }
+
     setRange(next);
     setValue("eventDate", next.from ? format(next.from, "yyyy-MM-dd") : "");
-    setValue(
-      "eventDateEnd",
-      next.to ? format(next.to, "yyyy-MM-dd") : undefined
-    );
+    setValue("eventDateEnd", next.to ? format(next.to, "yyyy-MM-dd") : undefined);
   }
 
   function formatRangeLabel() {
@@ -122,19 +147,15 @@ export default function QuoteForm() {
     );
   };
 
-  // Disable a date if it is booked OR if selecting it as an end date would
-  // create a range that crosses any booked block.
   const isDisabled = (date: Date): boolean => {
     const d = startOfDay(date);
     if (d < today) return true;
     if (isBooked(d)) return true;
-    if (range.from && d > startOfDay(range.from)) {
+    if (range.from) {
       const from = startOfDay(range.from);
-      return blocks.some((b) => {
-        const bs = startOfDay(parseISO(b.startDate));
-        const be = startOfDay(parseISO(b.endDate));
-        return bs <= d && be >= from;
-      });
+      if (d.getTime() !== from.getTime()) {
+        return rangecrossesBlock(from, d);
+      }
     }
     return false;
   };
