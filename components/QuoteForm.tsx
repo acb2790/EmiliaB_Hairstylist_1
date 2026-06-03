@@ -81,7 +81,6 @@ export default function QuoteForm() {
       "eventDateEnd",
       next.to ? format(next.to, "yyyy-MM-dd") : undefined
     );
-    if (next.from && next.to) setCalOpen(false);
   }
 
   function formatRangeLabel() {
@@ -322,25 +321,32 @@ export default function QuoteForm() {
                     modifiersClassNames={{ booked: "day-booked" }}
                     numberOfMonths={2}
                   />
-                  {range.from && (
-                    <div className="flex justify-between items-center mt-3 pt-3 border-t" style={{ borderColor: "var(--color-border)" }}>
-                      <p className="text-xs" style={{ color: "var(--color-muted)" }}>
-                        {formatRangeLabel()}
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setRange({});
-                          setValue("eventDate", "");
-                          setValue("eventDateEnd", undefined);
-                        }}
-                        className="text-xs"
-                        style={{ color: "var(--color-muted)" }}
-                      >
-                        Clear
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex justify-between items-center mt-3 pt-3 border-t" style={{ borderColor: "var(--color-border)" }}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRange({});
+                        setValue("eventDate", "");
+                        setValue("eventDateEnd", undefined);
+                      }}
+                      className="text-xs"
+                      style={{ color: "var(--color-muted)" }}
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCalOpen(false)}
+                      className="text-xs px-4 py-1.5"
+                      style={{
+                        background: range.from ? "var(--color-gold)" : "var(--color-border)",
+                        color: range.from ? "var(--color-near-black)" : "var(--color-muted)",
+                        cursor: range.from ? "pointer" : "default",
+                      }}
+                    >
+                      {range.from ? `Confirm — ${formatRangeLabel()}` : "Select a date"}
+                    </button>
+                  </div>
                 </div>
               )}
 
