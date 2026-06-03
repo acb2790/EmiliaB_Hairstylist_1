@@ -125,7 +125,8 @@ export default function AvailabilityCalendar() {
                   align-items: center;
                   justify-content: center;
                   color: rgba(220,60,60,0.9);
-                  font-size: 16px;
+                  font-size: 20px;
+                  font-weight: 700;
                   pointer-events: none;
                   z-index: 2;
                 }
